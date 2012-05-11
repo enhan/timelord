@@ -41,9 +41,9 @@ public class TimelordWebInit implements WebApplicationInitializer{
     @Override
     public void onStartup(ServletContext servletContext) throws ServletException {
 	AnnotationConfigWebApplicationContext rootCtx = new AnnotationConfigWebApplicationContext();
-			
 	rootCtx.register(AppConfig.class);
 	servletContext.addListener(new ContextLoaderListener(rootCtx));
+	
 	AnnotationConfigWebApplicationContext webAppCtx = new AnnotationConfigWebApplicationContext();
 	webAppCtx.setParent(rootCtx);
 	webAppCtx.register(WebConfig.class);
@@ -52,5 +52,7 @@ public class TimelordWebInit implements WebApplicationInitializer{
 	dispatcher.addMapping("/");
 	
     }
+    
+    
 
 }

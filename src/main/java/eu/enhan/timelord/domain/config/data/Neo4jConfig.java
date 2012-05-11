@@ -14,17 +14,23 @@
  *   You should have received a copy of the Affero GNU General Public License
  *   along with Timemord.  If not, see <http://www.gnu.org/licenses/>.
  */
-package eu.enhan.timelord.domain.config;
+package eu.enhan.timelord.domain.config.data;
 
-import org.springframework.context.annotation.ComponentScan;
-import org.springframework.context.annotation.Configuration;
+import org.neo4j.graphdb.GraphDatabaseService;
+
 
 /**
  * @author Emmanuel Nhan
  *
  */
-@Configuration
-@ComponentScan("eu.enhan.timelord.domain")
-public class AppConfig {
+public interface Neo4jConfig {
+    
+    static final String LOCATION_KEY= "neo4j.db.location";
 
+    /**
+     * Create the correct graph database service
+     * @return
+     */
+    GraphDatabaseService graphDatabaseService(); 
+    
 }
