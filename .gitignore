@@ -1,0 +1,9 @@
+*~
+.project
+.settings
+.springbeans
+.classpath
+target/
+build/
+ajcore*
+
