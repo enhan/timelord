@@ -20,12 +20,15 @@ import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.ServletRegistration;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.web.WebApplicationInitializer;
 import org.springframework.web.context.ContextLoaderListener;
 import org.springframework.web.context.support.AnnotationConfigWebApplicationContext;
 import org.springframework.web.servlet.DispatcherServlet;
 
 import eu.enhan.timelord.domain.config.AppConfig;
+import eu.enhan.timelord.domain.config.data.Neo4jConfig;
 import eu.enhan.timelord.web.config.WebConfig;
 
 
@@ -35,12 +38,16 @@ import eu.enhan.timelord.web.config.WebConfig;
  */
 public class TimelordWebInit implements WebApplicationInitializer{
 
+    private static final Logger log = LoggerFactory.getLogger(TimelordWebInit.class);
+    
     /**
      * @see org.springframework.web.WebApplicationInitializer#onStartup(javax.servlet.ServletContext)
      */
     @Override
     public void onStartup(ServletContext servletContext) throws ServletException {
 	AnnotationConfigWebApplicationContext rootCtx = new AnnotationConfigWebApplicationContext();
+	String neo = rootCtx.getEnvironment().getProperty(Neo4jConfig.LOCATION_KEY);
+	log.debug("Neo4j DB location : '{}'.",neo);
 	rootCtx.register(AppConfig.class);
 	servletContext.addListener(new ContextLoaderListener(rootCtx));
 	
