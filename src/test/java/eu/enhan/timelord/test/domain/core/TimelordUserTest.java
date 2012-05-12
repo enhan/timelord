@@ -18,6 +18,8 @@ package eu.enhan.timelord.test.domain.core;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.neo4j.template.Neo4jOperations;
 import org.springframework.test.context.ActiveProfiles;
@@ -38,8 +40,10 @@ import static org.junit.Assert.*;
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes=AppConfig.class)
 @ActiveProfiles("dev")
-public class TimlordUserTest {
+public class TimelordUserTest {
 
+    private static final Logger logger = LoggerFactory.getLogger(TimelordUserTest.class);
+    
     @Autowired
     Neo4jOperations template;
     
@@ -48,8 +52,16 @@ public class TimlordUserTest {
 	
 	TimelordUser user = new TimelordUser("me", "password", "email@mail.com");
 	template.save(user);
-	TimelordUser user2 = template.findOne(user.getId(), TimelordUser.class);
-	assertEquals(user, user2);
+	logger.debug("User saved. Sleeping for 1s.");
+	try {
+	    Thread.sleep(1000);
+	    logger.debug("Wake up, try to get it back.");
+	    TimelordUser user2 = template.findOne(user.getId(), TimelordUser.class);
+		assertEquals(user, user2);
+	} catch (InterruptedException e) {
+	    e.printStackTrace();
+	}
+	
 	
 	
     }

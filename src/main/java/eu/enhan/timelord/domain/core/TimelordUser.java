@@ -16,6 +16,7 @@
  */
 package eu.enhan.timelord.domain.core;
 
+import org.joda.time.DateTime;
 import org.springframework.data.neo4j.annotation.GraphId;
 import org.springframework.data.neo4j.annotation.NodeEntity;
 
@@ -34,13 +35,14 @@ public class TimelordUser {
     private String login;
     private String password;
     private String email;
-    
+    private DateTime registrationDate;
 
     public TimelordUser(String login, String password, String email) {
 	super();
 	this.login = login;
 	this.password = password;
 	this.email = email;
+	registrationDate = new DateTime();
     }
     
     public TimelordUser() {
@@ -85,6 +87,7 @@ public class TimelordUser {
 	result = prime * result + ((email == null) ? 0 : email.hashCode());
 	result = prime * result + ((login == null) ? 0 : login.hashCode());
 	result = prime * result + ((password == null) ? 0 : password.hashCode());
+	result = prime * result + ((registrationDate == null) ? 0 : registrationDate.hashCode());
 	return result;
     }
 
@@ -111,6 +114,11 @@ public class TimelordUser {
 	    if (other.password != null)
 		return false;
 	} else if (!password.equals(other.password))
+	    return false;
+	if (registrationDate == null) {
+	    if (other.registrationDate != null)
+		return false;
+	} else if (!registrationDate.equals(other.registrationDate))
 	    return false;
 	return true;
     }

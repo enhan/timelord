@@ -16,8 +16,18 @@
  */
 package eu.enhan.timelord.domain.config;
 
+import java.util.Set;
+
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.support.ConversionServiceFactoryBean;
+import org.springframework.core.convert.converter.Converter;
+
+import com.google.common.collect.Sets;
+
+import eu.enhan.timelord.domain.util.DateTimeToStringConverter;
+import eu.enhan.timelord.domain.util.StringToDateTimeConverter;
 
 /**
  * @author Emmanuel Nhan
@@ -26,5 +36,17 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 @ComponentScan("eu.enhan.timelord.domain")
 public class AppConfig {
+    
+    @Bean
+    public ConversionServiceFactoryBean conversionService(){
+	ConversionServiceFactoryBean cf = new ConversionServiceFactoryBean();
+	Set<Converter<?, ?>> converters = Sets.newHashSet();
+	converters.add(new DateTimeToStringConverter());
+	converters.add(new StringToDateTimeConverter());
+	cf.setConverters(converters);
+	
+	return cf;
+    }
+    
 
 }
