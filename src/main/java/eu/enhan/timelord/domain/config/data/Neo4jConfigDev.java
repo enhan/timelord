@@ -18,6 +18,8 @@ package eu.enhan.timelord.domain.config.data;
 
 import org.neo4j.graphdb.GraphDatabaseService;
 import org.neo4j.kernel.EmbeddedGraphDatabase;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -33,9 +35,11 @@ import eu.enhan.timelord.annotation.Dev;
  */
 @Configuration
 @Dev
-@PropertySource("classpath:/neo4j-dev.properties")
+@PropertySource("classpath:neo4j-dev.properties")
 public class Neo4jConfigDev extends Neo4jConfiguration implements Neo4jConfig {
 
+    private static final Logger log = LoggerFactory.getLogger(Neo4jConfigDev.class);
+    
     @Autowired
     Environment env;
     
@@ -46,6 +50,10 @@ public class Neo4jConfigDev extends Neo4jConfiguration implements Neo4jConfig {
     @Bean(destroyMethod="close")
     @Override
     public GraphDatabaseService graphDatabaseService() {
+	log.debug("Create Graph database.");
+	if (env == null){
+	    log.debug("Fail injecting Environment.");
+	}
 	
 	// TODO : resolve this ugly bug
 //	return new EmbeddedGraphDatabase(env.getProperty(LOCATION_KEY));
