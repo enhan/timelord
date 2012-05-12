@@ -23,6 +23,7 @@
 		<neo4j.version>1.6</neo4j.version>
 		<spring.neo4j.version>2.0.1.RELEASE</spring.neo4j.version>
 		<hibernate.validator.version>4.2.0.Final</hibernate.validator.version>
+		<joda.version>2.1</joda.version>
 		
 	</properties>
 
@@ -125,6 +126,12 @@
 			<groupId>com.google.guava</groupId>
 			<artifactId>guava</artifactId>
 			<version>${guava.version}</version>
+		</dependency>
+		
+		<dependency>
+			<groupId>joda-time</groupId>
+			<artifactId>joda-time</artifactId>
+			<version>${joda.version}</version>
 		</dependency>
 
 		<!-- ASPECTJ -->

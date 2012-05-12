@@ -14,39 +14,40 @@
  *   You should have received a copy of the Affero GNU General Public License
  *   along with Timemord.  If not, see <http://www.gnu.org/licenses/>.
  */
-package eu.enhan.timelord.domain.config;
+package eu.enhan.timelord.test.domain.util;
 
-import java.util.Set;
-
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.ComponentScan;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.context.support.ConversionServiceFactoryBean;
-import org.springframework.core.convert.converter.Converter;
-
-import com.google.common.collect.Sets;
+import org.joda.time.DateTime;
+import org.junit.Test;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import eu.enhan.timelord.domain.util.DateTimeToStringConverter;
 import eu.enhan.timelord.domain.util.StringToDateTimeConverter;
+
+import static org.junit.Assert.*;
 
 /**
  * @author Emmanuel Nhan
  *
  */
-@Configuration
-@ComponentScan("eu.enhan.timelord.domain")
-public class AppConfig {
+public class DateTimeConversionTest {
+
+    private static final Logger logger = LoggerFactory.getLogger(DateTimeConversionTest.class);
     
-    @Bean
-    public ConversionServiceFactoryBean conversionService(){
-	ConversionServiceFactoryBean cf = new ConversionServiceFactoryBean();
-	Set<Converter<?, ?>> converters = Sets.newHashSet();
-	converters.add(new DateTimeToStringConverter());
-	converters.add(new StringToDateTimeConverter());
-	cf.setConverters(converters);
+    @Test
+    public void testConvertion(){
+	StringToDateTimeConverter stringToDate = new StringToDateTimeConverter();
+	DateTimeToStringConverter dateToString = new DateTimeToStringConverter();
 	
-	return cf;
+	DateTime time = new DateTime(2012, 2, 2, 10, 0);
+	String converted = dateToString.convert(time);
+	logger.debug("Converted value = {}.", converted);
+	DateTime restored = stringToDate.convert(converted);
+	
+	assertEquals(time, restored);
+	
+	
+	
     }
     
-
 }
