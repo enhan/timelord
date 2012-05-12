@@ -4,13 +4,13 @@
 <html>
     <head>
         <meta charset="utf-8" />
-		<link rel="stylesheet" href="/socialist/resources/css/bootstrap.css">
+		<link rel="stylesheet" href="/timelord/resources/css/bootstrap.css">
 		<style>
 		      body {
 		        padding-top: 60px; /* 60px to make the container go all the way to the bottom of the topbar */
 		      }
 		</style>
-		<link href="/socialist/resources/css/bootstrap-responsive.css" rel="stylesheet">
+		<link href="/timelord/resources/css/bootstrap-responsive.css" rel="stylesheet">
         <title>Welcome to Timelord</title>
     </head>
 

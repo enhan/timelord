@@ -14,17 +14,27 @@
  *   You should have received a copy of the Affero GNU General Public License
  *   along with Timemord.  If not, see <http://www.gnu.org/licenses/>.
  */
-package eu.enhan.timelord.domain.config;
+package eu.enhan.timelord.annotation;
 
-import org.springframework.context.annotation.ComponentScan;
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
+
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Profile;
+
 
 /**
+ * Shortcut annotation to use on {@link Configuration} classes.
+ * {@link Dev} indicates that the class must be activated when the dev profile is activated
+ * 
  * @author Emmanuel Nhan
  *
  */
-@Configuration
-@ComponentScan("eu.enhan.timelord.domain")
-public class AppConfig {
+@Target(ElementType.TYPE)
+@Retention(RetentionPolicy.RUNTIME)
+@Profile("dev")
+public @interface Dev {
 
 }
