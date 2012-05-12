@@ -23,6 +23,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Import;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.env.Environment;
 import org.springframework.data.neo4j.config.Neo4jConfiguration;
@@ -36,9 +37,12 @@ import eu.enhan.timelord.annotation.Dev;
 @Configuration
 @Dev
 @PropertySource("classpath:neo4j-dev.properties")
-public class Neo4jConfigDev extends Neo4jConfiguration implements Neo4jConfig {
+@Import(Neo4jConfiguration.class)
+public class Neo4jConfigDev implements Neo4jConfig {
 
     private static final Logger log = LoggerFactory.getLogger(Neo4jConfigDev.class);
+    
+    public static final String defaultLocation ="target/db";
     
     @Autowired
     Environment env;
@@ -52,12 +56,11 @@ public class Neo4jConfigDev extends Neo4jConfiguration implements Neo4jConfig {
     public GraphDatabaseService graphDatabaseService() {
 	log.debug("Create Graph database.");
 	if (env == null){
-	    log.debug("Fail injecting Environment.");
+	    log.warn("Fail injecting Environment. Using default location ('{}') for Neo4j", defaultLocation);
+	    return new EmbeddedGraphDatabase(defaultLocation);
 	}
-	
-	// TODO : resolve this ugly bug
-//	return new EmbeddedGraphDatabase(env.getProperty(LOCATION_KEY));
-	return new EmbeddedGraphDatabase("target/db");
+	log.debug("Using {} as location for Neo4j", env.getProperty(LOCATION_KEY));
+	return new EmbeddedGraphDatabase(env.getProperty(LOCATION_KEY));
     }
 
 }
