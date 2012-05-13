@@ -34,7 +34,7 @@
 			<div class="row">
 				<div class="span4">
 					<!-- Registration form -->
-					
+					<%@include file="./user/create.jspf" %>
 				</div>
 				<div class="span8">
 					<h1>Welcome to Timelord</h1>
