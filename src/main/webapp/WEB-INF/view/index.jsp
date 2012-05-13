@@ -15,19 +15,8 @@
     </head>
 
     <body>
-    	<!-- NAV bar -->
-    	<div class="navbar navbar-fixed-top">
-		<div class="navbar-inner">
-			<div class="container">
-				<ul class="nav">
-					<li class="active"><a class="brand" href="#">Timelord</a></li>
-					<li><a href="#">Home</a></li>
-					<li><a href="#">Register</a></li>
-					<li><a href="#">About</a></li>
-				</ul>
-			</div>
-		</div>
-		</div>
+    	
+    	<%@ include file="./common/header.jspf" %>
 		
 		<!-- Content -->
 		<div class="container">
