@@ -26,6 +26,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.env.Environment;
+import org.springframework.data.neo4j.aspects.config.Neo4jAspectConfiguration;
 import org.springframework.data.neo4j.config.Neo4jConfiguration;
 
 import eu.enhan.timelord.annotation.Dev;
@@ -37,7 +38,7 @@ import eu.enhan.timelord.annotation.Dev;
 @Configuration
 @Dev
 @PropertySource("classpath:neo4j-dev.properties")
-@Import(Neo4jConfiguration.class)
+@Import(value={Neo4jConfiguration.class,Neo4jAspectConfiguration.class})
 public class Neo4jConfigDev implements Neo4jConfig {
 
     private static final Logger log = LoggerFactory.getLogger(Neo4jConfigDev.class);

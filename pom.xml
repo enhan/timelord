@@ -262,10 +262,10 @@
 							<artifactId>spring-aspects</artifactId>
 						</aspectLibrary>
 						
-<!-- 						<aspectLibrary> -->
-<!--                 			<groupId>org.springframework.data</groupId> -->
-<!--                 			<artifactId>spring-data-neo4j-aspects</artifactId> -->
-<!--             			</aspectLibrary> -->
+						<aspectLibrary>
+                			<groupId>org.springframework.data</groupId>
+                			<artifactId>spring-data-neo4j-aspects</artifactId>
+            			</aspectLibrary>
 						
 					</aspectLibraries>
 				</configuration>

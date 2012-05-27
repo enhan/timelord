@@ -40,7 +40,6 @@ import eu.enhan.timelord.domain.core.TimelordUser;
  */
 @Controller
 @RequestMapping("/user")
-@Transactional
 public class TimelordUserController {
 
     private static final Logger logger = LoggerFactory.getLogger(TimelordUserController.class);
@@ -59,7 +58,8 @@ public class TimelordUserController {
 
 
 
-
+    
+    @Transactional
     @RequestMapping(method=RequestMethod.POST)
     public String create(@RequestParam String registrationUsername, @RequestParam String registrationEmail, @RequestParam String registrationPassword){
 	TimelordUser user = new TimelordUser(registrationUsername, registrationPassword, registrationEmail);
@@ -67,18 +67,18 @@ public class TimelordUserController {
 	return "redirect:/";
     }
     
-    
+    @Transactional
     @RequestMapping(method=RequestMethod.GET)
     public String list(Model model){
 	Iterable<TimelordUser> u =temp.findAll(TimelordUser.class);
 	List<TimelordUser> users = Lists.newArrayList();
+	
 	for (TimelordUser timelordUser : u) {
 	    logger.debug("Found user : {}", timelordUser);
 	    users.add(timelordUser);
 	}
-	users.add(new TimelordUser("stub", "p", "email.com"));
 	
-	model.addAttribute("users", users );
+	model.addAttribute("users", u );
 	return "user/list";
     }
     

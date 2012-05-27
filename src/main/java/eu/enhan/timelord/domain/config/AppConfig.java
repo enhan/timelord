@@ -18,6 +18,7 @@ package eu.enhan.timelord.domain.config;
 
 import java.util.Set;
 
+import org.springframework.context.annotation.AdviceMode;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
@@ -36,7 +37,7 @@ import eu.enhan.timelord.domain.util.StringToDateTimeConverter;
  */
 @Configuration
 @ComponentScan("eu.enhan.timelord.domain")
-//@EnableTransactionManagement
+@EnableTransactionManagement(mode=AdviceMode.ASPECTJ)
 public class AppConfig {
     
     @Bean
