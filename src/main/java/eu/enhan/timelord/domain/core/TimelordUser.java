@@ -19,6 +19,7 @@ package eu.enhan.timelord.domain.core;
 import org.joda.time.DateTime;
 import org.springframework.data.neo4j.annotation.GraphId;
 import org.springframework.data.neo4j.annotation.NodeEntity;
+import org.springframework.security.core.GrantedAuthority;
 
 /**
  * Represents a user for the Timelord application.
@@ -36,6 +37,8 @@ public class TimelordUser {
     private String password;
     private String email;
     private DateTime registrationDate;
+    
+    private TimelordRoles roles[];
 
     public TimelordUser(String login, String password, String email) {
 	super();
@@ -43,6 +46,8 @@ public class TimelordUser {
 	this.password = password;
 	this.email = email;
 	registrationDate = new DateTime();
+	this.roles = new TimelordRoles[1];
+	this.roles[0] = TimelordRoles.ROLE_USER;
     }
     
     public TimelordUser() {
@@ -129,5 +134,15 @@ public class TimelordUser {
     }
     
     
+    
+    public enum TimelordRoles implements GrantedAuthority{
+	ROLE_ADMIN, ROLE_USER;
+
+	@Override
+	public String getAuthority() {
+	    return name();
+	}
+	
+    }
 
 }

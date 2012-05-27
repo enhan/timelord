@@ -5,12 +5,19 @@
 <div class="navbar navbar-fixed-top">
 	<div class="navbar-inner">
 		<div class="container">
+			<a class="brand" href="/">Timelord</a>
 			<ul class="nav">
-				<li class="active"><a class="brand" href="#">Timelord</a></li>
-				<li><a href="#">Home</a></li>
+				<li class="active"><a href="/">Home</a></li>
 				<li><a href="#">Register</a></li>
 				<li><a href="#">About</a></li>
 			</ul>
+			
+			<form action="/auth/login" method="post" class="navbar-form pull-right">
+				<input type="text" class="span2" placeholder="login" id="j_username" name="j_username"/>
+				<input type="password" class="span2" placeholder="password" id="j_password" name="j_password" />
+				<button type="submit" class="btn btn-primary">Login</button>
+			</form>
+			
 		</div>
 	</div>
 </div>
