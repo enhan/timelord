@@ -123,4 +123,11 @@ public class TimelordUser {
 	return true;
     }
 
+    @Override
+    public String toString() {
+	return "TimelordUser [id=" + id + ", login=" + login + ", password=" + password + ", email=" + email + ", registrationDate=" + registrationDate + "]";
+    }
+    
+    
+
 }

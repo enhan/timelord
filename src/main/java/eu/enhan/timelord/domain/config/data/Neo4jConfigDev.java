@@ -51,7 +51,7 @@ public class Neo4jConfigDev implements Neo4jConfig {
      * 
      * @see eu.enhan.timelord.domain.config.data.Neo4jConfig#graphDatabaseService()
      */
-    @Bean(destroyMethod="close")
+    @Bean(destroyMethod="shutdown")
     @Override
     public GraphDatabaseService graphDatabaseService() {
 	log.debug("Create Graph database.");

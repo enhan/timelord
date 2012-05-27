@@ -4,11 +4,11 @@
 
 <!-- Create form -->
 <div>
-	 <form class="well">
+	 <form class="well" action="user" method="post">
 	 <h3>Registration</h3>
     <input id="registerForm-username" name="registrationUsername" type="text" class="span3" placeholder="Choose a username">
     <input id="registerForm-email" name="registrationEmail" type="text" class="span3" placeholder="Email">
-    <input type="password" placeholder="password" class="span3"/>
+    <input type="password" name="registrationPassword" placeholder="Password" class="span3"/>
     <button type="submit" class="btn btn-primary">Register</button>
     </form>
 </div>

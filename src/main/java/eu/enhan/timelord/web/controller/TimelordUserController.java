@@ -16,8 +16,23 @@
  */
 package eu.enhan.timelord.web.controller;
 
+import java.util.List;
+
+import org.neo4j.graphdb.Transaction;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.neo4j.support.Neo4jTemplate;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+
+import com.google.common.collect.Lists;
+
+import eu.enhan.timelord.domain.core.TimelordUser;
 
 /**
  * @author Emmanuel Nhan
@@ -25,11 +40,47 @@ import org.springframework.web.bind.annotation.RequestMapping;
  */
 @Controller
 @RequestMapping("/user")
+@Transactional
 public class TimelordUserController {
 
-    @RequestMapping()
-    public String create(){
-	return "";
+    private static final Logger logger = LoggerFactory.getLogger(TimelordUserController.class);
+    
+    private Neo4jTemplate temp;
+    
+    
+    
+    
+    @Autowired
+    public TimelordUserController(Neo4jTemplate temp) {
+	super();
+	this.temp = temp;
     }
+
+
+
+
+
+    @RequestMapping(method=RequestMethod.POST)
+    public String create(@RequestParam String registrationUsername, @RequestParam String registrationEmail, @RequestParam String registrationPassword){
+	TimelordUser user = new TimelordUser(registrationUsername, registrationPassword, registrationEmail);
+	temp.save(user);
+	return "redirect:/";
+    }
+    
+    
+    @RequestMapping(method=RequestMethod.GET)
+    public String list(Model model){
+	Iterable<TimelordUser> u =temp.findAll(TimelordUser.class);
+	List<TimelordUser> users = Lists.newArrayList();
+	for (TimelordUser timelordUser : u) {
+	    logger.debug("Found user : {}", timelordUser);
+	    users.add(timelordUser);
+	}
+	users.add(new TimelordUser("stub", "p", "email.com"));
+	
+	model.addAttribute("users", users );
+	return "user/list";
+    }
+    
     
 }

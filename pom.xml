@@ -20,8 +20,9 @@
 		<guava.version>11.0.2</guava.version>
 		<cglib.version>2.2.2</cglib.version>
 		<groovy.version>1.8.6</groovy.version>
-		<neo4j.version>1.6</neo4j.version>
-		<spring.neo4j.version>2.0.1.RELEASE</spring.neo4j.version>
+		<neo4j.version>1.7</neo4j.version>
+<!-- 		<spring.neo4j.version>2.0.1.RELEASE</spring.neo4j.version> -->
+		<spring.neo4j.version>2.1.0.M1</spring.neo4j.version>
 		<hibernate.validator.version>4.2.0.Final</hibernate.validator.version>
 		<joda.version>2.1</joda.version>
 		
@@ -119,6 +120,12 @@
 					<groupId>org.slf4j</groupId>
 				</exclusion>
 			</exclusions>
+		</dependency>
+		
+		<dependency>
+			<groupId>org.springframework.data</groupId>
+			<artifactId>spring-data-neo4j-aspects</artifactId>
+			<version>${spring.neo4j.version}</version>
 		</dependency>
 
 		<!-- UTILS -->
@@ -254,9 +261,12 @@
 							<groupId>org.springframework</groupId>
 							<artifactId>spring-aspects</artifactId>
 						</aspectLibrary>
+						
 <!-- 						<aspectLibrary> -->
-<!-- 							<groupId>org.</groupId> -->
-<!-- 						</aspectLibrary> -->
+<!--                 			<groupId>org.springframework.data</groupId> -->
+<!--                 			<artifactId>spring-data-neo4j-aspects</artifactId> -->
+<!--             			</aspectLibrary> -->
+						
 					</aspectLibraries>
 				</configuration>
 				<executions>

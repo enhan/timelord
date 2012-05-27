@@ -23,6 +23,7 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.support.ConversionServiceFactoryBean;
 import org.springframework.core.convert.converter.Converter;
+import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 import com.google.common.collect.Sets;
 
@@ -35,6 +36,7 @@ import eu.enhan.timelord.domain.util.StringToDateTimeConverter;
  */
 @Configuration
 @ComponentScan("eu.enhan.timelord.domain")
+//@EnableTransactionManagement
 public class AppConfig {
     
     @Bean
