@@ -36,7 +36,6 @@ import static org.junit.Assert.*;
  * @author Emmanuel Nhan
  *
  */
-@Transactional
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes=AppConfig.class)
 @ActiveProfiles("dev")
@@ -46,7 +45,8 @@ public class TimelordUserTest {
     
     @Autowired
     Neo4jOperations template;
-    
+
+    @Transactional
     @Test
     public void testCreateUser(){
 	

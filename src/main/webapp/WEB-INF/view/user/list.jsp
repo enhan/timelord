@@ -1,7 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <!DOCTYPE html>
 <html>
     <head>
@@ -18,21 +17,28 @@
 
     <body>
     	
-    	<%@ include file="./common/header.jspf" %>
+    	<%@ include file="../common/header.jspf" %>
 		
 		<!-- Content -->
 		<div class="container">
 			<div class="row">
 				<div class="span4">
-					<sec:authorize ifNotGranted="ROLE_USER">
-					<!-- Registration form -->
-					<%@include file="./user/create.jspf" %>
-					</sec:authorize>
+					<!-- Admin stuff -->
 				</div>
 				<div class="span8">
-					<h1>Welcome to Timelord</h1>
-					<p>Timelord is a schedule management application. It helps you manage your TODOs, appointments and much more !
-					 Right now, it does not do a lot of things but well, it is some kind of a toy project.</p>
+					<h1>Users</h1>
+					<table class="table table-bordered table-stripped">
+					<thead><tr><td>Username</td><td>email</td><!--<td>Since</td> --></tr></thead>
+					<tbody>
+					<c:forEach var="user" items="${users}">
+						<tr>
+							<td> <c:out value="${user.login}" default="default"></c:out></td>
+							<td> <c:out value="${user.email}" default="default"></c:out></td>
+<%-- 							<td> <c:out value="${user.registrationDate}" default="default"></c:out></td> --%>
+						</tr>
+					</c:forEach>
+					</tbody>
+					</table>
 				</div>
 			</div>
 		</div>

@@ -16,6 +16,8 @@
  */
 package eu.enhan.timelord.domain.config.data;
 
+import java.io.File;
+
 import org.neo4j.graphdb.GraphDatabaseService;
 import org.neo4j.kernel.EmbeddedGraphDatabase;
 import org.slf4j.Logger;
@@ -24,8 +26,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
+import org.springframework.context.annotation.ImportResource;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.env.Environment;
+import org.springframework.data.neo4j.aspects.config.Neo4jAspectConfiguration;
 import org.springframework.data.neo4j.config.Neo4jConfiguration;
 
 import eu.enhan.timelord.annotation.Dev;
@@ -37,7 +41,8 @@ import eu.enhan.timelord.annotation.Dev;
 @Configuration
 @Dev
 @PropertySource("classpath:neo4j-dev.properties")
-@Import(Neo4jConfiguration.class)
+@Import(value={Neo4jConfiguration.class,Neo4jAspectConfiguration.class})
+@ImportResource(value={"classpath:/spring/neo4j-repositories.xml"})
 public class Neo4jConfigDev implements Neo4jConfig {
 
     private static final Logger log = LoggerFactory.getLogger(Neo4jConfigDev.class);
@@ -51,7 +56,7 @@ public class Neo4jConfigDev implements Neo4jConfig {
      * 
      * @see eu.enhan.timelord.domain.config.data.Neo4jConfig#graphDatabaseService()
      */
-    @Bean(destroyMethod="close")
+    @Bean(destroyMethod="shutdown")
     @Override
     public GraphDatabaseService graphDatabaseService() {
 	log.debug("Create Graph database.");
@@ -59,8 +64,8 @@ public class Neo4jConfigDev implements Neo4jConfig {
 	    log.warn("Fail injecting Environment. Using default location ('{}') for Neo4j", defaultLocation);
 	    return new EmbeddedGraphDatabase(defaultLocation);
 	}
-	log.debug("Using {} as location for Neo4j", env.getProperty(LOCATION_KEY));
+	log.debug("Using {} as location for Neo4j", env.getProperty("user.dir")+ File.separator + env.getProperty(LOCATION_KEY));
 	return new EmbeddedGraphDatabase(env.getProperty(LOCATION_KEY));
     }
-
+    
 }

@@ -9,8 +9,8 @@
 	<url>https://github.com/enhan/timelord</url>
 
 	<properties>
-		<maven.compiler.source>1.7</maven.compiler.source>
-		<maven.compiler.target>1.7</maven.compiler.target>
+		<maven.compiler.source>1.6</maven.compiler.source>
+		<maven.compiler.target>1.6</maven.compiler.target>
 		<maven.compiler.encoding>UTF-8</maven.compiler.encoding>
 
 		<aspectj.version>1.7.0.M1</aspectj.version>
@@ -22,8 +22,10 @@
 		<groovy.version>1.8.6</groovy.version>
 		<neo4j.version>1.6</neo4j.version>
 		<spring.neo4j.version>2.0.1.RELEASE</spring.neo4j.version>
+<!-- 		<spring.neo4j.version>2.1.0.M1</spring.neo4j.version> -->
 		<hibernate.validator.version>4.2.0.Final</hibernate.validator.version>
 		<joda.version>2.1</joda.version>
+		<spring.security.version>3.1.0.RELEASE</spring.security.version>
 		
 	</properties>
 
@@ -118,6 +120,26 @@
 					<artifactId>slf4j-log4j12</artifactId>
 					<groupId>org.slf4j</groupId>
 				</exclusion>
+				<exclusion>
+					<artifactId>log4j</artifactId>
+					<groupId>log4j</groupId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+		
+		<dependency>
+			<groupId>org.springframework.data</groupId>
+			<artifactId>spring-data-neo4j-aspects</artifactId>
+			<version>${spring.neo4j.version}</version>
+			<exclusions>
+				<exclusion>
+					<artifactId>log4j</artifactId>
+					<groupId>log4j</groupId>
+				</exclusion>
+				<exclusion>
+					<artifactId>slf4j-log4j12</artifactId>
+					<groupId>org.slf4j</groupId>
+				</exclusion>
 			</exclusions>
 		</dependency>
 
@@ -203,6 +225,28 @@
 			<artifactId>hibernate-validator</artifactId>
 			<version>${hibernate.validator.version}</version>
 		</dependency>
+		
+		<!-- Security -->
+		<dependency>
+			<groupId>org.springframework.security</groupId>
+			<artifactId>spring-security-web</artifactId>
+			<version>${spring.security.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.security</groupId>
+			<artifactId>spring-security-taglibs</artifactId>
+			<version>${spring.security.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.security</groupId>
+			<artifactId>spring-security-config</artifactId>
+			<version>${spring.security.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.security</groupId>
+			<artifactId>spring-security-aspects</artifactId>
+			<version>${spring.security.version}</version>
+		</dependency>
 
 		<!-- TEST -->
 		<dependency>
@@ -216,6 +260,11 @@
 			<artifactId>spring-test</artifactId>
 			<version>${spring.version}</version>
 			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.mockito</groupId>
+			<artifactId>mockito-all</artifactId>
+			<version>1.9.0</version>
 		</dependency>
 
 
@@ -249,12 +298,18 @@
 					<target>${maven.compiler.target}</target>
 					<encoding>${maven.compiler.encoding}</encoding>
 					<Xlint>ignore</Xlint>
-					<!-- <aspectLibraries> -->
-					<!-- <aspectLibrary> -->
-					<!-- <groupId>org.springframework</groupId> -->
-					<!-- <artifactId>spring-aspects</artifactId> -->
-					<!-- </aspectLibrary> -->
-					<!-- </aspectLibraries> -->
+					<aspectLibraries>
+						<aspectLibrary>
+							<groupId>org.springframework</groupId>
+							<artifactId>spring-aspects</artifactId>
+						</aspectLibrary>
+						
+						<aspectLibrary>
+                			<groupId>org.springframework.data</groupId>
+                			<artifactId>spring-data-neo4j-aspects</artifactId>
+            			</aspectLibrary>
+						
+					</aspectLibraries>
 				</configuration>
 				<executions>
 					<execution>

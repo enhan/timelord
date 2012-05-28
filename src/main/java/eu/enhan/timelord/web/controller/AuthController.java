@@ -16,13 +16,15 @@
  */
 package eu.enhan.timelord.web.controller;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
-import eu.enhan.timelord.domain.core.TimelordUser;
 import eu.enhan.timelord.domain.security.TimelordUserDetailsService;
 
 /**
@@ -30,19 +32,21 @@ import eu.enhan.timelord.domain.security.TimelordUserDetailsService;
  *
  */
 @Controller
-@RequestMapping("/")
-public class IndexController {
+@RequestMapping("/auth")
+public class AuthController {
+
+    private final static Logger logger = LoggerFactory.getLogger(AuthController.class);
+    
+    
+    private TimelordUserDetailsService userDetailsService;
+
 
     @Autowired
-    TimelordUserDetailsService userService;
-    
-    @RequestMapping(method=RequestMethod.GET)
-    public String index(){
-	return "index";
+    public AuthController(TimelordUserDetailsService userDetailsService) {
+	super();
+	this.userDetailsService = userDetailsService;
     }
     
     
-    @ModelAttribute("user") public TimelordUser getUser(){
-	return userService.getUserFromSession(); 
-    }
+    
 }
