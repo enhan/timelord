@@ -21,6 +21,7 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.neo4j.support.Neo4jTemplate;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
@@ -45,6 +46,8 @@ public class TimelordUserController {
     
     private UserRepository repo;
     
+    @Autowired
+    Neo4jTemplate template;
     
     
     @Autowired
@@ -62,7 +65,8 @@ public class TimelordUserController {
     public String create(@RequestParam String registrationUsername, @RequestParam String registrationEmail, @RequestParam String registrationPassword){
 	TimelordUser user = new TimelordUser(registrationUsername, registrationPassword, registrationEmail);
 	
-	user.persist();
+//	user.persist();
+	template.save(user);
 	
 	return "redirect:/";
     }
