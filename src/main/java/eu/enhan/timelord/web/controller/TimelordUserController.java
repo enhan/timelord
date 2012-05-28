@@ -21,7 +21,6 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.neo4j.support.Neo4jTemplate;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
@@ -32,6 +31,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.google.common.collect.Lists;
 
 import eu.enhan.timelord.domain.core.TimelordUser;
+import eu.enhan.timelord.domain.core.UserRepository;
 
 /**
  * @author Emmanuel Nhan
@@ -43,15 +43,14 @@ public class TimelordUserController {
 
     private static final Logger logger = LoggerFactory.getLogger(TimelordUserController.class);
     
-    private Neo4jTemplate temp;
-    
+    private UserRepository repo;
     
     
     
     @Autowired
-    public TimelordUserController(Neo4jTemplate temp) {
+    public TimelordUserController(UserRepository repo) {
 	super();
-	this.temp = temp;
+	this.repo = repo;
     }
 
 
@@ -62,22 +61,16 @@ public class TimelordUserController {
     @RequestMapping(method=RequestMethod.POST)
     public String create(@RequestParam String registrationUsername, @RequestParam String registrationEmail, @RequestParam String registrationPassword){
 	TimelordUser user = new TimelordUser(registrationUsername, registrationPassword, registrationEmail);
-	temp.save(user);
+	user.persist();
 	return "redirect:/";
     }
     
     @Transactional
     @RequestMapping(method=RequestMethod.GET)
     public String list(Model model){
-	Iterable<TimelordUser> u =temp.findAll(TimelordUser.class);
-	List<TimelordUser> users = Lists.newArrayList();
-	
-	for (TimelordUser timelordUser : u) {
-	    logger.debug("Found user : {}", timelordUser);
-	    users.add(timelordUser);
-	}
-	
-	model.addAttribute("users", u );
+	Iterable<TimelordUser> u = repo.findAll();
+	List<TimelordUser> users = Lists.newArrayList(u);
+	model.addAttribute("users", users );
 	return "user/list";
     }
     

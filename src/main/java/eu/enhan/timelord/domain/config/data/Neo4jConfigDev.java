@@ -24,6 +24,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
+import org.springframework.context.annotation.ImportResource;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.env.Environment;
 import org.springframework.data.neo4j.aspects.config.Neo4jAspectConfiguration;
@@ -39,6 +40,7 @@ import eu.enhan.timelord.annotation.Dev;
 @Dev
 @PropertySource("classpath:neo4j-dev.properties")
 @Import(value={Neo4jConfiguration.class,Neo4jAspectConfiguration.class})
+@ImportResource(value={"classpath:/spring/neo4j-repositories.xml"})
 public class Neo4jConfigDev implements Neo4jConfig {
 
     private static final Logger log = LoggerFactory.getLogger(Neo4jConfigDev.class);
@@ -63,5 +65,5 @@ public class Neo4jConfigDev implements Neo4jConfig {
 	log.debug("Using {} as location for Neo4j", env.getProperty(LOCATION_KEY));
 	return new EmbeddedGraphDatabase(env.getProperty(LOCATION_KEY));
     }
-
+    
 }

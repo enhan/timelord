@@ -14,15 +14,12 @@
  *   You should have received a copy of the Affero GNU General Public License
  *   along with Timemord.  If not, see <http://www.gnu.org/licenses/>.
  */
-package eu.enhan.timelord.domain.core;
-
-import org.springframework.data.neo4j.repository.GraphRepository;
-import org.springframework.data.repository.RepositoryDefinition;
+package eu.enhan.timelord.web.controller;
 
 /**
  * @author Emmanuel Nhan
  *
  */
-public interface UserRepository extends GraphRepository<TimelordUser> {
+public class AuthController {
 
 }

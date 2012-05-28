@@ -19,8 +19,12 @@ package eu.enhan.timelord.domain.core;
 import org.joda.time.DateTime;
 import org.springframework.data.neo4j.annotation.GraphId;
 import org.springframework.data.neo4j.annotation.NodeEntity;
+import org.springframework.data.neo4j.aspects.core.NodeBacked;
 import org.springframework.security.core.GrantedAuthority;
 
+/*
+ * It implements NodeBacked directly to avoid errors in Eclipse
+ */
 /**
  * Represents a user for the Timelord application.
  * 
@@ -28,7 +32,7 @@ import org.springframework.security.core.GrantedAuthority;
  * 
  */
 @NodeEntity
-public class TimelordUser {
+public class TimelordUser{
     
     @GraphId
     private Long id;
