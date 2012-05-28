@@ -61,7 +61,9 @@ public class TimelordUserController {
     @RequestMapping(method=RequestMethod.POST)
     public String create(@RequestParam String registrationUsername, @RequestParam String registrationEmail, @RequestParam String registrationPassword){
 	TimelordUser user = new TimelordUser(registrationUsername, registrationPassword, registrationEmail);
+	
 	user.persist();
+	
 	return "redirect:/";
     }
     

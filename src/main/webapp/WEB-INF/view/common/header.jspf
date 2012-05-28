@@ -12,7 +12,7 @@
 				<li><a href="#">About</a></li>
 			</ul>
 			
-			<form action="/auth/login" method="post" class="navbar-form pull-right">
+			<form action="/timelord/j_spring_security_check" method="post" class="navbar-form pull-right">
 				<input type="text" class="span2" placeholder="login" id="j_username" name="j_username"/>
 				<input type="password" class="span2" placeholder="password" id="j_password" name="j_password" />
 				<button type="submit" class="btn btn-primary">Login</button>

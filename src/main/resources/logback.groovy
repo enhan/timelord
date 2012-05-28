@@ -10,5 +10,6 @@ appender("CONSOLE", ConsoleAppender){
 }
 
 logger("eu.enhan", DEBUG)
+//logger("org.springframework.security", DEBUG)
 
 root(INFO, ["CONSOLE"])

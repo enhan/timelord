@@ -16,10 +16,18 @@
  */
 package eu.enhan.timelord.domain.security;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContext;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import eu.enhan.timelord.domain.core.TimelordUser;
+import eu.enhan.timelord.domain.core.UserRepository;
 
 /**
  * @author Emmanuel Nhan
@@ -28,13 +36,47 @@ import org.springframework.stereotype.Service;
 @Service
 public class TimelordUserDetailsService implements UserDetailsService {
 
+    private UserRepository userRepository;
+    
+    
+    @Autowired
+    public TimelordUserDetailsService(UserRepository userRepository) {
+	super();
+	this.userRepository = userRepository;
+    }
+
     /* (non-Javadoc)
      * @see org.springframework.security.core.userdetails.UserDetailsService#loadUserByUsername(java.lang.String)
      */
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+	final TimelordUser user =findUser(username);
+	if (user == null){
+	    throw new UsernameNotFoundException("Username not found");
+	}
+	return new TimelordUserDetails(user);
+    }
+    
+    public TimelordUser findUser(String login){
+	TimelordUser user = userRepository.findByPropertyValue("login", login);
+	if (user == null){
+	    // try by email
+	    user = userRepository.findByPropertyValue("email", login);
+	}
+	return user;
 	
+    }
+
+    public TimelordUser getUserFromSession(){
+	SecurityContext ctx = SecurityContextHolder.getContext();
+	Authentication auth = ctx.getAuthentication();
+	Object principal = auth.getPrincipal();
+	if (principal instanceof TimelordUserDetails){
+	    return ((TimelordUserDetails) principal).getUser();
+	}
 	return null;
     }
+    
+    
 
 }

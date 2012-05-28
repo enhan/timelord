@@ -32,7 +32,6 @@ import org.springframework.web.servlet.view.InternalResourceViewResolver;
 @Configuration
 @EnableWebMvc
 @ComponentScan(basePackages = "eu.enhan.timelord.web")
-@ImportResource(value={"classpath:/spring/security.xml"})
 public class WebConfig extends WebMvcConfigurerAdapter {
 
     @Bean

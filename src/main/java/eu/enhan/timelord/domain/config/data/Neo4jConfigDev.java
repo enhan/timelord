@@ -16,6 +16,8 @@
  */
 package eu.enhan.timelord.domain.config.data;
 
+import java.io.File;
+
 import org.neo4j.graphdb.GraphDatabaseService;
 import org.neo4j.kernel.EmbeddedGraphDatabase;
 import org.slf4j.Logger;
@@ -62,7 +64,7 @@ public class Neo4jConfigDev implements Neo4jConfig {
 	    log.warn("Fail injecting Environment. Using default location ('{}') for Neo4j", defaultLocation);
 	    return new EmbeddedGraphDatabase(defaultLocation);
 	}
-	log.debug("Using {} as location for Neo4j", env.getProperty(LOCATION_KEY));
+	log.debug("Using {} as location for Neo4j", env.getProperty("user.dir")+ File.separator + env.getProperty(LOCATION_KEY));
 	return new EmbeddedGraphDatabase(env.getProperty(LOCATION_KEY));
     }
     

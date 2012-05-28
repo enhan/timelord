@@ -16,6 +16,7 @@
  */
 package eu.enhan.timelord.web.init;
 
+import javax.servlet.FilterRegistration;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.ServletRegistration;
@@ -25,6 +26,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.web.WebApplicationInitializer;
 import org.springframework.web.context.ContextLoaderListener;
 import org.springframework.web.context.support.AnnotationConfigWebApplicationContext;
+import org.springframework.web.context.support.XmlWebApplicationContext;
+import org.springframework.web.filter.DelegatingFilterProxy;
 import org.springframework.web.servlet.DispatcherServlet;
 
 import eu.enhan.timelord.domain.config.AppConfig;
@@ -46,17 +49,27 @@ public class TimelordWebInit implements WebApplicationInitializer{
     @Override
     public void onStartup(ServletContext servletContext) throws ServletException {
 	AnnotationConfigWebApplicationContext rootCtx = new AnnotationConfigWebApplicationContext();
-	String neo = rootCtx.getEnvironment().getProperty(Neo4jConfig.LOCATION_KEY);
-	log.debug("Neo4j DB location : '{}'.",neo);
 	rootCtx.register(AppConfig.class);
 	servletContext.addListener(new ContextLoaderListener(rootCtx));
 	
 	AnnotationConfigWebApplicationContext webAppCtx = new AnnotationConfigWebApplicationContext();
 	webAppCtx.setParent(rootCtx);
 	webAppCtx.register(WebConfig.class);
+	
+	XmlWebApplicationContext securityCtx = new XmlWebApplicationContext();
+	securityCtx.setServletContext(servletContext);
+	securityCtx.setParent(rootCtx);
+	securityCtx.setConfigLocation("classpath:/spring/security.xml");
+	
+	
+	
 	ServletRegistration.Dynamic dispatcher = servletContext.addServlet("dispatcher", new DispatcherServlet(webAppCtx));
 	dispatcher.setLoadOnStartup(1);
 	dispatcher.addMapping("/");
+	
+	FilterRegistration.Dynamic securityFilter = servletContext.addFilter("springSecurityFilterChain", new DelegatingFilterProxy("springSecurityFilterChain", securityCtx));
+//	securityFilter.addMappingForUrlPatterns(null, false, "/**");
+	securityFilter.addMappingForServletNames(null, false, "dispatcher");
 	
     }
     

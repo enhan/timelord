@@ -18,8 +18,10 @@ package eu.enhan.timelord.domain.core;
 
 import org.joda.time.DateTime;
 import org.springframework.data.neo4j.annotation.GraphId;
+import org.springframework.data.neo4j.annotation.Indexed;
 import org.springframework.data.neo4j.annotation.NodeEntity;
 import org.springframework.data.neo4j.aspects.core.NodeBacked;
+import org.springframework.security.authentication.encoding.ShaPasswordEncoder;
 import org.springframework.security.core.GrantedAuthority;
 
 /*
@@ -34,10 +36,15 @@ import org.springframework.security.core.GrantedAuthority;
 @NodeEntity
 public class TimelordUser{
     
+    private static final String SALT = "sdfhe";
+    
     @GraphId
     private Long id;
     
+    @Indexed
     private String login;
+    
+    @Indexed
     private String password;
     private String email;
     private DateTime registrationDate;
@@ -47,7 +54,7 @@ public class TimelordUser{
     public TimelordUser(String login, String password, String email) {
 	super();
 	this.login = login;
-	this.password = password;
+	this.password = encode(password);
 	this.email = email;
 	registrationDate = new DateTime();
 	this.roles = new TimelordRoles[1];
@@ -87,6 +94,10 @@ public class TimelordUser{
 
     public void setId(Long id) {
         this.id = id;
+    }
+    
+    public TimelordRoles[] getRoles() {
+        return roles;
     }
 
     @Override
@@ -137,6 +148,10 @@ public class TimelordUser{
 	return "TimelordUser [id=" + id + ", login=" + login + ", password=" + password + ", email=" + email + ", registrationDate=" + registrationDate + "]";
     }
     
+    
+    private String encode(String password){
+	return new ShaPasswordEncoder().encodePassword(password, SALT);
+    }
     
     
     public enum TimelordRoles implements GrantedAuthority{
