@@ -9,8 +9,8 @@
 	
 	<security:http auto-config="true" >
 		<security:intercept-url pattern="/admin/**" access="ROLE_ADMIN"/>
-		<security:form-login login-page="/" default-target-url="/"/>
-		
+		<security:form-login login-page="/" default-target-url="/" login-processing-url="/auth/login"/>
+		<security:logout logout-success-url="/" invalidate-session="true" logout-url="/auth/logout"/>
 	</security:http>
 
 	<security:authentication-manager>
